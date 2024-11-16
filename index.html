@@ -74,7 +74,7 @@
 <body>
   <div class="container">
     <h1>h4x ServerSide</h1>
-    <p>Please put your username below.</p>
+    <p>Welcome to h4x serverside</p>
     <div>
       <input id="username" placeholder="Enter Roblox username" /><span id="status" class="status-indicator" style="background-color: red;"></span>
     </div>
@@ -101,7 +101,7 @@
     function executeCode() {
       const code = editor.getValue();
       const username = document.getElementById('username').value;
-      fetch('https://your-external-server.com/execute', {
+      fetch('https://githubbingcode.github.io/h4x-ss/execute', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -119,7 +119,7 @@
 
     function setR6() {
       const username = document.getElementById('username').value;
-      fetch('https://your-external-server.com/setR6', {
+      fetch('https://githubbingcode.github.io/h4x-ss/setR6', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -133,7 +133,7 @@
 
     function resetCharacter() {
       const username = document.getElementById('username').value;
-      fetch('https://your-external-server.com/resetCharacter', {
+      fetch('https://githubbingcode.github.io/h4x-ss/resetCharacter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
