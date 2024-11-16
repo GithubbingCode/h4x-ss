@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Roblox UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      width: 80%;
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 10px;
+    }
+    .CodeMirror {
+      height: 200px;
+      margin: 10px 0;
+      border-radius: 5px;
+      text-align: left;
+    }
+    input, textarea {
+      width: calc(100% - 24px); /* Adjust to fit the container width */
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      background-color: #333333;
+      color: #ffffff;
+      box-sizing: border-box; /* Ensure padding is included in the width */
+    }
+    button {
+      background-color: #6200ea;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #3700b3;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Modern Roblox UI</h1>
+    <p>Welcome to your modern dark-themed interface!</p>
+    <div>
+      <input id="username" placeholder="Enter Roblox username" /><span id="status" class="status-indicator" style="background-color: red;"></span>
+    </div>
+    <textarea id="codeInput" name="code"></textarea><br>
+    <button onclick="executeCode()">Execute</button>
+    <button onclick="clearCode()">Clear</button>
+    <button onclick="setR6()">R6</button>
+    <button onclick="resetCharacter()">Reset Character</button>
+  </div>
+
+  <script>
+    const editor = CodeMirror.fromTextArea(document.getElementById('codeInput'), {
+      lineNumbers: true,
+      mode: 'javascript',
+      theme: 'dracula',
+      lineWrapping: true
+    });
+
+    function updateStatus(inGame) {
+      const statusIndicator = document.getElementById('status');
+      statusIndicator.style.backgroundColor = inGame ? 'green' : 'red';
+    }
+
+    function executeCode() {
+      const code = editor.getValue();
+      const username = document.getElementById('username').value;
+      fetch('https://your-external-server.com/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code: code, username: username })
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Error:', error));
+    }
+
+    function clearCode() {
+      editor.setValue('');
+    }
+
+    function setR6() {
+      const username = document.getElementById('username').value;
+      fetch('https://your-external-server.com/setR6', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username })
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Error:', error));
+    }
+
+    function resetCharacter() {
+      const username = document.getElementById('username').value;
+      fetch('https://your-external-server.com/resetCharacter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username })
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Error:', error));
+    }
+
+    function checkUserStatus() {
+      const username = document.getElementById('username').value;
+      // Example fetch call - replace with actual logic
+      fetch(`https://api.roblox.com/users/${username}/onlinestatus`)
+        .then(response => response.json())
+        .then(data => updateStatus(data.InGame))
+        .catch(error => console.error('Error:', error));
+    }
+
+    document.getElementById('username').addEventListener('input', checkUserStatus);
+  </script>
+</body>
+</html>
